@@ -1,55 +1,82 @@
-# Docs as Code Framework
+# Project Starter with Docs as Code
 
-このリポジトリは、Docs as Codeで開発資料を管理するための考え方とMarkdownテンプレートを保存します。
+アプリケーション開発とDocs as Codeをすぐ始められる、技術スタック非依存のプロジェクト雛形です。
 
-個別システムの現行資料は含めず、各プロジェクトで再利用するドキュメント体系そのものを管理します。
+`app/` や `docs/` を含む初期構成は作成済みです。プロジェクト生成後は、既存ファイル内のプレースホルダーを実際の内容へ置き換えて使います。
 
-## Usage
+## Recommended Usage
 
-新しい開発を始めるときは、このリポジトリをcloneします。
+GitHub上でこのリポジトリをTemplate Repositoryに設定し、リポジトリ画面の **Use this template** から新しいリポジトリを作成します。
+
+この方法では、次が自動的に引き継がれます。
+
+- `app/`, `tests/`, `scripts/`, `config/`
+- Docs as Codeのディレクトリ構成
+- Current State、ADR、Proposal、Roadmap、Changelogの初期ファイル
+- `.gitignore`
+
+新規リポジトリ作成後にcloneします。
 
 ```bash
 cd ~/git
-git clone https://github.com/YutaSSuzuki/md_docs.git
+git clone git@github.com:<owner>/<new-project>.git
+cd <new-project>
 ```
 
-対象プロジェクトに `docs/` を作り、必要なテンプレートをコピーして内容を記入します。
+## Clone Fallback
+
+Template Repositoryを使わず直接cloneする場合は、clone後に元のremoteを新規プロジェクトへ付け替えます。
 
 ```bash
-cd ~/git/<project>
-mkdir -p docs/{architecture,api,database,operations,performance,adr,proposals,roadmap,changelog}
-cp ~/git/md_docs/templates/documentation-policy.md docs/documentation-policy.md
+cd ~/git
+git clone https://github.com/YutaSSuzuki/md_docs.git <new-project>
+cd <new-project>
+git remote rename origin template
+git remote add origin git@github.com:<owner>/<new-project>.git
+git push -u origin main
 ```
 
-ADRやProposalなどは、作成時に対応するテンプレートをコピーします。
+`md_docs` へ誤ってpushしないため、通常は **Use this template** を使用します。
 
-```bash
-cp ~/git/md_docs/templates/adr.md docs/adr/0001-example.md
-cp ~/git/md_docs/templates/proposal.md docs/proposals/example.md
+## Initial Structure
+
+```text
+.
+├── app/                         application source
+├── config/                      configuration templates
+├── scripts/                     development and operation scripts
+├── tests/                       automated tests
+├── docs/
+│   ├── index.md
+│   ├── documentation-policy.md
+│   ├── architecture/
+│   │   ├── current-state.md
+│   │   ├── system-context.md
+│   │   ├── runtime-flow.md
+│   │   └── deployment.md
+│   ├── api/
+│   ├── database/
+│   ├── operations/
+│   ├── performance/
+│   ├── adr/
+│   ├── proposals/
+│   ├── roadmap/
+│   └── changelog/
+├── .gitignore
+└── README.md
 ```
 
-テンプレート更新を取り込む場合:
+## First Update
 
-```bash
-git -C ~/git/md_docs pull --ff-only
-```
+プロジェクト開始時に、新しいファイルやディレクトリを作る必要はありません。まず既存ファイルを更新します。
 
-## Intent
+1. このREADMEをプロジェクト名、目的、起動方法に書き換える
+2. `app/README.md` に採用技術とソース配置を書く
+3. `docs/architecture/current-state.md` に初期構成を書く
+4. `docs/roadmap/current-roadmap.md` に最初の作業を書く
+5. `docs/api/index.md` と `docs/database/schema.md` を現状に合わせる
 
-個人開発でも、未来の自分を別の開発者として扱います。
-
-そのため、開発速度を落としすぎずに、後から再開しても次が分かる状態を目指します。
-
-- 現在のシステム構成
-- 判断理由
-- 未完了作業
-- 実施済み変更
-- 運用手順
-- 性能課題
-
-## Adopted Ideas
-
-本フレームワークでは、複数の考え方を用途別に採用します。
+## Documentation Model
 
 | Idea | Role |
 | --- | --- |
@@ -60,46 +87,13 @@ git -C ~/git/md_docs pull --ff-only
 | Roadmap | 未着手、進行中、保留、完了を管理する |
 | Changelog | 実施済み変更を時系列で記録する |
 
-## Directory Pattern
+## Adding Records Later
 
-```text
-docs/
-├── index.md
-├── documentation-policy.md
-│
-├── architecture/
-├── api/
-├── database/
-├── operations/
-├── performance/
-│
-├── adr/
-├── proposals/
-├── roadmap/
-└── changelog/
+初期構成の作成は不要ですが、設計判断や変更案が増えた場合は履歴を別ファイルとして追加します。
+
+```bash
+cp docs/adr/template.md docs/adr/0001-example.md
+cp docs/proposals/template.md docs/proposals/example.md
 ```
 
-## Current State Documents
-
-以下は現在状態だけを書く文書です。過去の構成は残しません。
-
-- `architecture/`
-- `api/`
-- `database/`
-- `operations/`
-- `performance/`
-
-過去の構成や判断理由は `adr/`、実施済み履歴は `changelog/`、未実装の構想は `proposals/` に分けます。
-
-## Templates
-
-- [documentation-policy.md](templates/documentation-policy.md)
-- [adr.md](templates/adr.md)
-- [proposal.md](templates/proposal.md)
-- [roadmap.md](templates/roadmap.md)
-- [changelog.md](templates/changelog.md)
-- [current-state.md](templates/current-state.md)
-- [api.md](templates/api.md)
-- [database.md](templates/database.md)
-- [operations.md](templates/operations.md)
-- [performance.md](templates/performance.md)
+これは初期セットアップではなく、開発履歴を追加する通常運用です。
