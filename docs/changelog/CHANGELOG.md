@@ -4,6 +4,7 @@
 
 ### Added
 
+- Added `AGENTS.md` so Codex can follow Docs as Code rules without repeating the skill instruction every time.
 - Added `skills/docs-as-code-developer/` for Codex-driven development with Docs as Code.
 
 ### Changed
