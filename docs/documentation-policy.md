@@ -6,6 +6,8 @@ This project treats the future maintainer as a different developer, even when it
 
 Documentation must preserve current state, decision context, unfinished work, and completed changes.
 
+AI is expected to read these documents before work, update them after work, and leave enough context for a human to understand the current state and give the next instruction.
+
 ## Basic Policy
 
 - Use Markdown for all project documentation.
@@ -23,7 +25,7 @@ Documentation must preserve current state, decision context, unfinished work, an
 docs/
 ├── index.md
 ├── documentation-policy.md
-├── architecture/     Current State, context, runtime, deployment
+├── architecture/     current state, context, runtime, deployment
 ├── api/              endpoints and feature flows
 ├── database/         schema, ER diagram, migration
 ├── operations/       runbook, deployment, backup, monitoring
@@ -33,6 +35,8 @@ docs/
 ├── roadmap/          current development status
 └── changelog/        completed changes
 ```
+
+Each directory must have an `index.md` that explains why the directory exists, what to write there, which files exist, and how to read them.
 
 ## Update Rules
 
@@ -55,6 +59,17 @@ docs/
 3. Update Current State documents during implementation.
 4. After implementation, update ADR, roadmap, and changelog when needed.
 5. Move completed Proposals to `proposals/done/` or delete them when no longer useful.
+
+## Human and AI Workflow
+
+1. AI reads `docs/index.md` first.
+2. AI reads the category `index.md` files related to the requested work.
+3. AI performs the requested work.
+4. AI updates the relevant documents.
+5. Human reads the updated documents and understands the current state.
+6. Human gives the next instruction based on the updated documents.
+
+Documentation is part of the deliverable. Work is not complete when the code changed but the related docs are stale.
 
 ## Initial Setup Rule
 
