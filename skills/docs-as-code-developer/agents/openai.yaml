@@ -1,0 +1,4 @@
+interface:
+  display_name: "Docs as Code Developer"
+  short_description: "Keep code and Markdown docs in sync"
+  default_prompt: "Use $docs-as-code-developer to implement the requested change and update the related docs."

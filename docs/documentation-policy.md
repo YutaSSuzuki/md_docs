@@ -8,6 +8,8 @@ Documentation must preserve current state, decision context, unfinished work, an
 
 AI is expected to read these documents before work, update them after work, and leave enough context for a human to understand the current state and give the next instruction.
 
+When using Codex, apply the bundled `skills/docs-as-code-developer/` skill.
+
 ## Basic Policy
 
 - Use Markdown for all project documentation.
@@ -54,16 +56,45 @@ Each directory must have an `index.md` that explains why the directory exists, w
 
 ## Workflow
 
-1. Check roadmap, proposals, architecture, database, and API docs before work.
-2. Create or update a Proposal before large feature, design, database, or infrastructure changes.
-3. Update Current State documents during implementation.
-4. After implementation, update ADR, roadmap, and changelog when needed.
-5. Move completed Proposals to `proposals/done/` or delete them when no longer useful.
+1. Choose the smallest safe reading scope before work.
+2. Check only the docs needed for the current task.
+3. Create or update a Proposal before large feature, design, database, or infrastructure changes.
+4. Update Current State documents during implementation.
+5. After implementation, update ADR, roadmap, and changelog when needed.
+6. Move completed Proposals to `proposals/done/` or delete them when no longer useful.
+
+## Reading Scope
+
+Do not read all documentation by default.
+
+| Scope | Use When | Read |
+| --- | --- | --- |
+| Full Orientation | New session, unclear context, broad change, or uncertain current state | `docs/index.md`, this policy, roadmap, related category indexes, relevant Current State documents |
+| Focused Read | Conversation context is fresh and task scope is clear | Related category index, directly relevant docs, directly relevant code |
+| Minimal Read | Small edit with clear target | Target file and directly linked docs only when needed |
+
+Reuse conversation context when it is still reliable. Reread documents when they may have changed, exact wording matters, or the previous context is incomplete.
+
+## Documentation Update Rule
+
+Documentation must be updated even when no code is changed.
+
+| Situation | Update |
+| --- | --- |
+| Design decision was made | `adr/` |
+| Future implementation plan was proposed | `proposals/` |
+| Next work changed | `roadmap/current-roadmap.md` |
+| Completed meaningful non-code change | `changelog/CHANGELOG.md` |
+| Architecture understanding changed | `architecture/` |
+| API understanding changed | `api/` |
+| Database understanding changed | `database/` |
+| Operation procedure changed | `operations/` |
+| Performance finding changed | `performance/` |
 
 ## Human and AI Workflow
 
-1. AI reads `docs/index.md` first.
-2. AI reads the category `index.md` files related to the requested work.
+1. AI chooses Full Orientation, Focused Read, or Minimal Read.
+2. AI reads only the documents needed for the selected scope.
 3. AI performs the requested work.
 4. AI updates the relevant documents.
 5. Human reads the updated documents and understands the current state.
